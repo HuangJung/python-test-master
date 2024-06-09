@@ -1,0 +1,148 @@
+The ``test`` module
+======================
+ 
+Using ``test``
+-------------------
+
+>>> from doctest_wc import test
+
+>>> test('testinputs/aa')
+b'wc: testinputs/aa: No such file or directory'
+
+>>> test('-')
+b'wc: -: No such file or directory'
+
+>>> test("-la")
+b"wc: invalid option -- 'a'"
+b"Try 'wc --help' for more information."
+
+>>> test("-l")
+b'wc: No such file or directory'
+
+>>> test("-l -w -c")
+b'wc: No such file or directory'
+
+>>> test("-l -w a")
+b'wc: a: No such file or directory'
+
+>>> test("-l-")
+b"wc: invalid option -- '-'"
+b"Try 'wc --help' for more information."
+
+>>> test("testinputs/blank.txt -l-")
+b"wc: invalid option -- '-'"
+b"Try 'wc --help' for more information."
+
+>>> test('testinputs/blank.txt')
+b'\t0\t0\t0\ttestinputs/blank.txt'
+
+>>> test('testinputs/test1.txt')
+b'\t5\t8\t38\ttestinputs/test1.txt'
+
+>>> test('testinputs/test2.txt')
+b'\t11\t29\t327\ttestinputs/test2.txt'
+
+>>> test('testinputs/miniwc.py')
+b'\t39\t109\t1036\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -l')
+b'\t39\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -w')
+b'\t109\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -c')
+b'\t1036\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -lwc')
+b'\t39\t109\t1036\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -lw -c')
+b'\t39\t109\t1036\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -llw -l')
+b'\t39\t109\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -l -w -c')
+b'\t39\t109\t1036\ttestinputs/miniwc.py'
+
+>>> test('testinputs/miniwc.py -l -w -c -a')
+b"wc: invalid option -- 'a'"
+b"Try 'wc --help' for more information."
+
+>>> test('testinputs/miniwc.py -l -w -c a')
+b'\t39\t109\t1036\ttestinputs/miniwc.py'
+b'wc: a: No such file or directory'
+b'\t39\t109\t1036\ttotal'
+
+>>> test('testinputs/blank.txt testinputs/test1.txt')
+b'\t0\t0\t0\ttestinputs/blank.txt'
+b'\t5\t8\t38\ttestinputs/test1.txt'
+b'\t5\t8\t38\ttotal'
+
+>>> test('testinputs/blank.txt a testinputs/test1.txt')
+b'\t0\t0\t0\ttestinputs/blank.txt'
+b'wc: a: No such file or directory'
+b'\t5\t8\t38\ttestinputs/test1.txt'
+b'\t5\t8\t38\ttotal'
+
+>>> test('-l testinputs/blank.txt a testinputs/test1.txt -c')
+b'\t0\t0\ttestinputs/blank.txt'
+b'wc: a: No such file or directory'
+b'\t5\t38\ttestinputs/test1.txt'
+b'\t5\t38\ttotal'
+
+>>> test('-c testinputs/blank.txt a testinputs/test1.txt -l')
+b'\t0\t0\ttestinputs/blank.txt'
+b'wc: a: No such file or directory'
+b'\t5\t38\ttestinputs/test1.txt'
+b'\t5\t38\ttotal'
+
+>>> test('-c testinputs/blank.txt -c testinputs/test1.txt')
+b'\t0\ttestinputs/blank.txt'
+b'\t38\ttestinputs/test1.txt'
+b'\t38\ttotal'
+
+>>> test('-c testinputs/blank.txt -cl testinputs/test1.txt -')
+b'\t0\t0\ttestinputs/blank.txt'
+b'\t5\t38\ttestinputs/test1.txt'
+b'wc: -: No such file or directory'
+b'\t5\t38\ttotal'
+
+>>> test('-c testinputs/blank.txt -cl testinputs/test1.txt - testinputs/test1.txt')
+b'\t0\t0\ttestinputs/blank.txt'
+b'\t5\t38\ttestinputs/test1.txt'
+b'wc: -: No such file or directory'
+b'\t5\t38\ttestinputs/test1.txt'
+b'\t10\t76\ttotal'
+
+>>> test('-c testinputs/blank.txt -cl testinputs/test1.txt - testinputs/test1.txt testinputs/test1')
+b'\t0\t0\ttestinputs/blank.txt'
+b'\t5\t38\ttestinputs/test1.txt'
+b'wc: -: No such file or directory'
+b'\t5\t38\ttestinputs/test1.txt'
+b'wc: testinputs/test1: No such file or directory'
+b'\t10\t76\ttotal'
+
+>>> test('testinputs/chinese.txt')
+b'\t21\t1127\t8483\ttestinputs/chinese.txt'
+
+>>> test('-wclwcllc testinputs/arabic.txt')
+b'\t19\t485\t4898\ttestinputs/arabic.txt'
+
+>>> test('testinputs/die.java')
+b'\t126\t533\t3608\ttestinputs/die.java'
+
+>>> test('testinputs/emoji.txt')
+b'\t256\t854\t5401\ttestinputs/emoji.txt'
+
+>>> test('testinputs/htmlTest.html')
+b'\t15\t229\t2488\ttestinputs/htmlTest.html'
+
+>>> test('testinputs/inferno2.txt')
+b'\t14920\t102197\t562492\ttestinputs/inferno2.txt'
+
+>>> test('testinputs/strangerThings.txt')
+b'\t117\t702\t13620\ttestinputs/strangerThings.txt'
+
+

@@ -1,0 +1,15 @@
+>>> from doctest_wc import test
+>>> test('aa')
+b'wc: aa: No such file or directory'
+>>> test("-la")
+b'wc: invalid option "-la"'
+>>> test('./testinputs/testcase.txt')
+b'\t22\t26\t414\t./testinputs/testcase.txt'
+>>> test('./testinputs/blank.txt')
+b'\t0\t0\t0\t./testinputs/blank.txt'
+>>> test('./testinputs/test2.txt')
+b'\t11\t29\t327\t./testinputs/test2.txt'
+>>> test('./testinputs/wc.py')
+b'\t71\t266\t2395\t./testinputs/wc.py'
+>>> test('./testinputs/test1.txt')
+b'\t5\t8\t38\t./testinputs/test1.txt'
